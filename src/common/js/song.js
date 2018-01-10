@@ -1,9 +1,6 @@
-import {getLyric} from 'api/song'
-import {ERR_OK} from 'api/config'
-import {Base64} from 'js-base64'
-
 export default class Song {
-  constructor({id, mid, singer, name, album, duration, image, url}) {
+  constructor({ id, mid, singer, name, album, duration, image, url }) {
+    // 歌曲抽象出一个类，好处在于代码可以在一个地方进行维护，类的扩展性比对象强很多，这是一种面向对象的编程模式
     this.id = id
     this.mid = mid
     this.singer = singer
@@ -13,38 +10,20 @@ export default class Song {
     this.image = image
     this.url = url
   }
-
-  getLyric() {
-    if (this.lyric) {
-      return Promise.resolve(this.lyric)
-    }
-
-    return new Promise((resolve, reject) => {
-      getLyric(this.mid).then((res) => {
-        if (res.retcode === ERR_OK) {
-          this.lyric = Base64.decode(res.lyric)
-          resolve(this.lyric)
-        } else {
-          reject('no lyric')
-        }
-      })
-    })
-  }
 }
-
+// 抽象出一个工厂方法，因为在抓取其他接口获取数据的时候musicData这个数据名称很多 不直接调用new返回一个实例
 export function createSong(musicData) {
   return new Song({
     id: musicData.songid,
     mid: musicData.songmid,
-    singer: filterSinger(musicData.singer),
+    singer: filterSinger(musicData.singer), // 合唱的歌手名字 设计稿上有这个两个名字中间是用/分开的所以filterSinger方法中用到了join('/')
     name: musicData.songname,
-    album: musicData.albumname,
-    duration: musicData.interval,
+    album: musicData.albumname,  // 专辑的名称
+    duration: musicData.interval, // 歌曲的时长
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
     url: `http://ws.stream.qqmusic.qq.com/${musicData.songid}.m4a?fromtag=46`
   })
 }
-
 function filterSinger(singer) {
   let ret = []
   if (!singer) {
@@ -55,4 +34,3 @@ function filterSinger(singer) {
   })
   return ret.join('/')
 }
-
