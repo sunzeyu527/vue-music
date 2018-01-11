@@ -1,14 +1,3 @@
-<<<<<<< HEAD
-import 'babel-polyfill'
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import fastclick from 'fastclick'
-import './common/stylus/index.styl'
-Vue.config.productionTip = false
-fastclick.attach(document.body)
-// 解决手机端点击3000毫秒的延迟问题
-=======
 import 'babel-polyfill' // 主要实现的是Babel的补丁问题 可以将es6的一些新的api类似promise进行转换 packagejson中记得引入
 import Vue from 'vue'
 import App from './App'
@@ -23,14 +12,10 @@ Vue.use(VueLazyLoad, {
 })
 Vue.config.productionTip = false
 
->>>>>>> origin/master
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-<<<<<<< HEAD
-=======
   store,
->>>>>>> origin/master
   render: h => h(App)
 })

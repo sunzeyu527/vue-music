@@ -1,37 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="recommend" ref="recommend">
-    <div class="recommend-content" :data="discList">
-      <div>
-        <div v-if="recommends.length" class="slider-wrapper" ref="sliderWrapper">
-          <slider>
-            <div v-for="(item,idx) in recommends" :key='idx'>
-              <a :href="item.linkUrl">
-                <img class="needsclick" :src="item.picUrl">
-              </a>
-            </div>
-          </slider>
-        </div>
-        <div class="recommend-list">
-          <h1 class="list-title">热门歌单推荐</h1>
-          <ul>
-            <li v-for="(item,idx) in discList" :key='idx' class="item">
-              <div class="icon">
-                <img width="60" height="60" :src="item.imgurl">
-              </div>
-              <div class="text">
-                <h2 class="name" v-html="item.creator.name"></h2>
-                <p class="desc" v-html="item.dissname"></p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="loading-container" v-show="!discList.length">
-      </div>
-    </div>
-    <router-view></router-view>
-=======
   <div class="recommend"> 
       <scroll :data="diskList" class="recommend-content" ref='scroll'>
         <div>
@@ -63,21 +30,10 @@
           <loading></loading>
         </div>
       </scroll>
->>>>>>> origin/master
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-<<<<<<< HEAD
-  import {getRecommend, getDiscList} from 'api/recommend'
-  import {ERR_OK} from 'api/config'
-  import Slider from 'base/slider/slider'
-  export default {
-    data() {
-      return {
-        recommends: [],
-        discList: []
-=======
   import Scroll from 'base/scroll/scroll'
   import Loading from 'base/loading/loading'
   import Slider from 'base/slider/slider'
@@ -89,38 +45,16 @@
         recommend: [],
         diskList: [],
         checkLoaded: false
->>>>>>> origin/master
       }
     },
     created() {
       this._getRecommend()
-<<<<<<< HEAD
-      this._getDiscList()
-=======
       this._getDiskList()
->>>>>>> origin/master
     },
     methods: {
       _getRecommend() {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
-<<<<<<< HEAD
-            this.recommends = res.data.slider
-          }
-        })
-      },
-      _getDiscList() {
-        getDiscList().then((res) => {
-          if (res.code === ERR_OK) {
-            this.discList = res.data.list
-            console.log(this.discList)
-          }
-        })
-      }
-    },
-    components: {
-      Slider // 引入新的组件的时候要记得一定要注册
-=======
             this.recommend = res.data.slider
           }
         })
@@ -144,17 +78,12 @@
       Slider,
       Scroll,
       Loading
->>>>>>> origin/master
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
   .recommend
     position: fixed
     width: 100%
