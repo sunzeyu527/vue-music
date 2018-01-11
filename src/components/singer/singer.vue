@@ -1,19 +1,11 @@
 <template>
-<<<<<<< HEAD
-  <div class= "singer" ref= "singer">
-    <list-view ref= "list"></list-view>
-=======
   <div class="singer" ref="singer">
     <list-view :data='singer' @select='selectSinger'></list-view>
->>>>>>> origin/master
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-  export default {}
-=======
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
   import Singer from 'common/js/singer'
@@ -94,7 +86,6 @@
       })
     }
   }
->>>>>>> origin/master
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

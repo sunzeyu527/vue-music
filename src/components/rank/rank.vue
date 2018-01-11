@@ -1,15 +1,5 @@
 <template>
   <div class="rank" ref="rank">
-<<<<<<< HEAD
-    <scroll :data="topList" class="toplist" ref="toplist">
-      <ul>
-        <li>
-          <div class="icon">
-            <img width="100" height="100" />
-          </div>
-          <ul class="songlist">
-            <li class="song">
-=======
       <ul>
         <li  class="item">
           <div class="icon">
@@ -17,31 +7,19 @@
           </div>
           <ul class="songlist">
             <li class="song" >
->>>>>>> origin/master
               <span></span>
               <span></span>
             </li>
           </ul>
         </li>
       </ul>
-<<<<<<< HEAD
-      <div class="loading-container">
-        <loading></loading>
-      </div>
-    </scroll>
-=======
       <div class="loading-container">       
       </div>   
->>>>>>> origin/master
     <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-<<<<<<< HEAD
-  export default {}
-=======
->>>>>>> origin/master
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">

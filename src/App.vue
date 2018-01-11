@@ -4,24 +4,24 @@
      <tab></tab>
      <keep-alive>
        <router-view></router-view>
-     </keep-alive>  
+     </keep-alive>
+     <player></player>   
   </div>
 </template>
 
 <script>
 import MHeader from 'components/m-header/m-header'
 import Tab from 'components/tab/tab'
+import Player from 'components/player/player'
 export default {
   name: 'app',
   components: {
     MHeader,
-    Tab
+    Tab,
+    Player
   }
 }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-  @import "~common/stylus/base"
-#app 
-  color: $color-theme
 </style>
