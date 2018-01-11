@@ -1,10 +1,17 @@
 <template>
   <div class="search">
     <div class="search-box-wrapper">
+<<<<<<< HEAD
       <search-box ref="searchBox"></search-box>
     </div>
     <div ref="shortcutWrapper" class="shortcut-wrapper">
       <scroll  ref="shortcut" class="shortcut" >
+=======
+      <search-box ref="searchBox" @query="onQueryChange"></search-box>
+    </div>
+    <div ref="shortcutWrapper" class="shortcut-wrapper">
+      <scroll :refreshDelay="refreshDelay" ref="shortcut" class="shortcut" >
+>>>>>>> origin/master
         <div>
           <div class="hot-key">
             <h1 class="title">热门搜索</h1>
@@ -17,29 +24,51 @@
           <div class="search-history">
             <h1 class="title">
               <span class="text">搜索历史</span>
+<<<<<<< HEAD
               <span @click="showConfirm" class="clear">
                 <i class="icon-clear"></i>
               </span>
             </h1>
             <search-list></search-list>
+=======
+              <span class="clear">
+                <i class="icon-clear"></i>
+              </span>
+            </h1>
+>>>>>>> origin/master
           </div>
         </div>
       </scroll>
     </div>
+<<<<<<< HEAD
     <div class="search-result" ref="searchResult">
       <suggest  ref="suggest"></suggest>
     </div>
     <confirm ref="confirm" text="是否清空所有搜索历史" ></confirm>
+=======
+    <div class="search-result"  ref="searchResult">
+    </div>
+>>>>>>> origin/master
     <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+<<<<<<< HEAD
   export default {}
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
   @import "~common/stylus/mixin"
+=======
+
+</script>
+
+<style lang="stylus" rel="stylesheet/stylus">
+  @import "~common/stylus/variable"
+  @import "~common/stylus/mixin"
+
+>>>>>>> origin/master
   .search
     .search-box-wrapper
       margin: 20px

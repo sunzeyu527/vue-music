@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="recommend" ref="recommend">
     <div class="recommend-content" :data="discList">
       <div>
@@ -30,10 +31,44 @@
       </div>
     </div>
     <router-view></router-view>
+=======
+  <div class="recommend"> 
+      <scroll :data="diskList" class="recommend-content" ref='scroll'>
+        <div>
+          <div class="slider-wrapper" ref="sliderWrapper" v-if="recommend.length">
+              <slider>
+                <div v-for="(item,key) in recommend" :key='key'>
+                  <a :href="item.linkUrl">
+                    <img :src="item.picUrl" @load="loadImage" alt="" class='needsclick'>
+                  </a>
+                </div>
+              </slider>
+          </div>
+          <div class="recommend-list">
+            <h1 class="list-title">热门歌单推荐</h1>
+            <ul>
+              <li  class="item" v-for="(item,idx) in diskList" :key='idx'>
+                <div class="icon">
+                  <img width="60" height="60" v-lazy='item.imgurl'>
+                </div>
+                <div class="text">
+                  <h2 class="name" v-html="item.creator.name"></h2>
+                  <p class="desc" v-html="item.dissname"></p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="loading-container" v-show='!diskList.length'>
+          <loading></loading>
+        </div>
+      </scroll>
+>>>>>>> origin/master
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+<<<<<<< HEAD
   import {getRecommend, getDiscList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   import Slider from 'base/slider/slider'
@@ -42,16 +77,34 @@
       return {
         recommends: [],
         discList: []
+=======
+  import Scroll from 'base/scroll/scroll'
+  import Loading from 'base/loading/loading'
+  import Slider from 'base/slider/slider'
+  import {getRecommend, getDiskList} from 'api/recommend'
+  import {ERR_OK} from 'api/config'
+  export default {
+    data() {
+      return {
+        recommend: [],
+        diskList: [],
+        checkLoaded: false
+>>>>>>> origin/master
       }
     },
     created() {
       this._getRecommend()
+<<<<<<< HEAD
       this._getDiscList()
+=======
+      this._getDiskList()
+>>>>>>> origin/master
     },
     methods: {
       _getRecommend() {
         getRecommend().then((res) => {
           if (res.code === ERR_OK) {
+<<<<<<< HEAD
             this.recommends = res.data.slider
           }
         })
@@ -67,12 +120,41 @@
     },
     components: {
       Slider // 引入新的组件的时候要记得一定要注册
+=======
+            this.recommend = res.data.slider
+          }
+        })
+      },
+      _getDiskList() {
+        getDiskList().then((res) => {
+          if (res.code === ERR_OK) {
+            console.log(res.data)
+            this.diskList = res.data.list
+          }
+        })
+      },
+      loadImage() {
+        if (!this.checkLoaded) {
+          this.$refs.scroll.refresh() // 通过监听图片加载 来确定图片已经加载 也就是说轮播的高度被撑开 只确定一张图片加载成功就可 所以通过一个开关来控制
+          this.checkLoaded = true
+        }
+      }
+    },
+    components: {
+      Slider,
+      Scroll,
+      Loading
+>>>>>>> origin/master
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
   .recommend
     position: fixed
     width: 100%
