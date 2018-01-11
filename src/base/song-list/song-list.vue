@@ -1,7 +1,11 @@
 <template>
   <div class="song-list">
     <ul>
-      <li v-for="(song,index) in songs" class='item' :key='index'>
+      <li 
+        v-for="(song,index) in songs" class='item' 
+        :key='index'
+        @click="selectItem(song, index)"
+        >
         <div class='content'>
           <h2 class='name'>{{song.name}}</h2>
           <p class='desc'>{{getDesc(song)}}</p>
@@ -22,6 +26,10 @@
     methods: {
       getDesc(song) {
         return `${song.singer}/${song.album}`
+      },
+      selectItem(item, index) {
+        // 这个组件是基础组件 它不具体写任何业务逻辑，只是负责告诉调用它的组件(父组件) 它被点击了，以及点击的是哪个
+        this.$emit('select', item, index)
       }
     }
   }
