@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use strict'
 const utils = require('./utils')
 const config = require('../config')
@@ -19,4 +20,17 @@ module.exports = {
     img: 'src',
     image: 'xlink:href'
   }
+=======
+var utils = require('./utils')
+var config = require('../config')
+var isProduction = process.env.NODE_ENV === 'production'
+
+module.exports = {
+  loaders: utils.cssLoaders({
+    sourceMap: isProduction
+      ? config.build.productionSourceMap
+      : config.dev.cssSourceMap,
+    extract: isProduction
+  })
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
 }

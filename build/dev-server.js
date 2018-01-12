@@ -29,16 +29,25 @@ apiRoutes.get('/getDiscList', function (req, res) {
   var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
   axios.get(url, {
     headers: {
+<<<<<<< HEAD
       referer: 'https://c.y.qq.com/',
+=======
+      referer: 'https://c.y.qq.com',
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
       host: 'c.y.qq.com'
     },
     params: req.query
   }).then((response) => {
+<<<<<<< HEAD
     res.json(response.data)
+=======
+    res.json(response.data) // 再次返回给浏览器前端
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
   }).catch((e) => {
     console.log(e)
   })
 })
+<<<<<<< HEAD
 
 apiRoutes.get('/lyric', function (req, res) {
   var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
@@ -65,6 +74,10 @@ apiRoutes.get('/lyric', function (req, res) {
 })
 
 app.use('/api', apiRoutes)
+=======
+app.use('/api',apiRoutes)
+
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
 
 var compiler = webpack(webpackConfig)
 

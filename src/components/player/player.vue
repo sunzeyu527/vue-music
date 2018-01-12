@@ -15,17 +15,32 @@
         <div class="middle">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
+<<<<<<< HEAD
               <div class="cd">
+=======
+              <div class="cd" :class="cdCls">
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
                 <img class="image" :src="currentSong.image">
               </div>
             </div>
           </div>
         </div>
         <div class="bottom">
+<<<<<<< HEAD
+=======
+          <div class="progress-wrapper">
+            <span class="time time-l">{{format(currentTime)}}</span>
+            <div class="progress-bar-wrapper">
+              <progress-bar :percent="percent" @percentChange="onProgressBarChange"></progress-bar>
+            </div>
+            <span class="time time-r">{{format(currentSong.duration)}}</span>
+          </div>
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
           <div class="operators">
             <div class="icon i-left">
               <i class="icon-sequence"></i>
             </div>
+<<<<<<< HEAD
             <div class="icon i-left">
               <i class="icon-prev"></i>
             </div>
@@ -34,6 +49,16 @@
             </div>
             <div class="icon i-right">
               <i class="icon-next"></i>
+=======
+            <div class="icon i-left" :class="disableCls">
+              <i class="icon-prev" @click="prev"></i>
+            </div>
+            <div class="icon i-center" :class="disableCls">
+              <i @click="togglePlaying" :class="playIcon"></i>
+            </div>
+            <div class="icon i-right" :class="disableCls">
+              <i class="icon-next" @click="next"></i>
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
             </div>
             <div class="icon i-right">
               <i class="icon icon-not-favorite"></i>
@@ -45,7 +70,11 @@
     <transition name="mini">
        <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
+<<<<<<< HEAD
           <img width="40" height="40" :src="currentSong.image">
+=======
+          <img width="40" height="40" :src="currentSong.image" :class="cdCls">
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
         </div>
         <div class="text">
           <h2 class="name" v-html="currentSong.name"></h2>
@@ -54,11 +83,19 @@
         <div class="control">
         </div>
         <div class="control">
+<<<<<<< HEAD
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition> 
      
+=======
+          <i :class="miniIcon" @click.stop="togglePlaying"></i>
+        </div>
+      </div>
+    </transition>
+    <audio :src="currentSong.url" ref="audio" @canplay="ready" @error="error" @timeupdate="updateTime"></audio>
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
   </div>
 </template>
 
@@ -68,6 +105,7 @@
 import {mapGetters, mapMutations} from 'vuex'
 import animations from 'create-keyframe-animation'
 import {prefixStyle} from 'common/js/dom'
+<<<<<<< HEAD
 const transform = prefixStyle('transform')
 export default {
   computed: {
@@ -76,6 +114,42 @@ export default {
       'playList',
       'currentSong'
     ])
+=======
+import ProgressBar from 'base/progress-bar/progress-bar'
+const transform = prefixStyle('transform')
+export default {
+  data() {
+    return {
+      songReady: false,
+      currentTime: 0
+    }
+  },
+  computed: {
+    cdCls() {
+      return this.playing ? 'play' : 'play pause'
+      // 中间cd的旋转是通过css来实现的  用js来进行控制 也是跟playing进行关联
+    },
+    playIcon() {
+      // 通过计算属性来为播放图标动态添加class 播放的时候显示暂停的图标 暂停的时候显示播放的图标 这样的一个逻辑
+      return this.playing ? 'icon-pause' : 'icon-play'
+    },
+    miniIcon() {
+      return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+    },
+    disableCls() {
+      return this.songReady ? '' : 'disable'
+    },
+    ...mapGetters([
+      'fullScreen',
+      'playList',
+      'currentSong',
+      'playing',
+      'currentIndex'
+    ]),
+    percent() {
+      return this.currentTime / this.currentSong.duration
+    }
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
   },
   methods: {
     back() {
@@ -138,9 +212,94 @@ export default {
         scale
       }
     },
+<<<<<<< HEAD
     ...mapMutations({
       setFullSreen: 'SET_FULL_SCREEN'
     })
+=======
+    togglePlaying() {
+      this.setPlayingState(!this.playing)
+    },
+    next() {
+      if (!this.songReady) return
+      let index = this.currentIndex + 1
+      if (index === this.playList.length) {
+        index = 0
+      }
+      this.setCurrnetIndex(index)
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+      this.songReady = false
+    },
+    prev() {
+      if (!this.songReady) return
+      let index = this.currentIndex - 1
+      if (index === -1) {
+        index = this.playList.length - 1
+      }
+      this.setCurrnetIndex(index)
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+      this.songReady = false
+    },
+    ready() {
+      this.songReady = true
+    },
+    error() {
+      // 当网络出现故障或者歌曲加载失败的时候 需要把this.songReady 设置成true 这样就能保证其他按钮的可用
+      this.songReady = true
+    },
+    updateTime(e) {
+      this.currentTime = e.target.currentTime  // 这是audio在播放的时候自动派发的一个事件
+    },
+    format(interval) {
+      interval = interval | 0
+      const minute = interval / 60 | 0   // |0表示向下取整
+      const second = this._pad(interval % 60)
+      return `${minute}:${second}`
+    },
+    _pad(num, n = 2) {
+      let len = num.toString().length
+      while (len < n) {
+        num = '0' + num
+        len++
+      }
+      return num
+    },
+    onProgressBarChange(precent) {
+      this.$refs.audio.currentTime = this.currentSong.duration * precent
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+    },
+    ...mapMutations({
+      setFullSreen: 'SET_FULL_SCREEN',
+      setPlayingState: 'SET_PLAYING_STATE',
+      setCurrnetIndex: 'SET_CURRENT_INDEX'
+    })
+  },
+  watch: {
+    currentSong() {
+      // 用watch属性观察currentSong
+      this.$nextTick(() => {
+        // 保证dom渲染之后才能正确调用play方法
+        this.$refs.audio.play()
+      })
+    },
+    playing(newPlaying) {
+      this.$nextTick(() => {
+         // 这里同样需要调用this.$nextTick方法 否则会报错
+         // 通过watch属性来监听playing的状态 控制audio的播放和暂停 整体的状态存储在vuex中的playing
+        const audio = this.$refs.audio
+        newPlaying ? audio.play() : audio.pause()
+      })
+    }
+  },
+  components: {
+    ProgressBar
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
   }
 }
 </script>
