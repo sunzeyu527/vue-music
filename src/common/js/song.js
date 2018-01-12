@@ -21,7 +21,8 @@ export function createSong(musicData) {
     album: musicData.albumname,  // 专辑的名称
     duration: musicData.interval, // 歌曲的时长
     image: `https://y.gtimg.cn/music/photo_new/T002R300x300M000${musicData.albummid}.jpg?max_age=2592000`,
-    url: `http://ws.stream.qqmusic.qq.com/${musicData.songid}.m4a?fromtag=46`
+    url: `http://thirdparty.gtimg.com/C100${musicData.songmid}.m4a?fromtag=38`
+
   })
 }
 function filterSinger(singer) {
