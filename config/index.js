@@ -35,8 +35,4 @@ module.exports = {
     // just be aware of this issue when enabling this option.
     cssSourceMap: false
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
