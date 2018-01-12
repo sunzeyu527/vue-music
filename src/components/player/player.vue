@@ -15,19 +15,13 @@
         <div class="middle">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
-<<<<<<< HEAD
-              <div class="cd">
-=======
               <div class="cd" :class="cdCls">
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
                 <img class="image" :src="currentSong.image">
               </div>
             </div>
           </div>
         </div>
         <div class="bottom">
-<<<<<<< HEAD
-=======
           <div class="progress-wrapper">
             <span class="time time-l">{{format(currentTime)}}</span>
             <div class="progress-bar-wrapper">
@@ -35,21 +29,10 @@
             </div>
             <span class="time time-r">{{format(currentSong.duration)}}</span>
           </div>
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
           <div class="operators">
             <div class="icon i-left">
               <i class="icon-sequence"></i>
             </div>
-<<<<<<< HEAD
-            <div class="icon i-left">
-              <i class="icon-prev"></i>
-            </div>
-            <div class="icon i-center">
-              <i class="icon-play"></i>
-            </div>
-            <div class="icon i-right">
-              <i class="icon-next"></i>
-=======
             <div class="icon i-left" :class="disableCls">
               <i class="icon-prev" @click="prev"></i>
             </div>
@@ -58,7 +41,6 @@
             </div>
             <div class="icon i-right" :class="disableCls">
               <i class="icon-next" @click="next"></i>
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
             </div>
             <div class="icon i-right">
               <i class="icon icon-not-favorite"></i>
@@ -70,11 +52,7 @@
     <transition name="mini">
        <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
-<<<<<<< HEAD
-          <img width="40" height="40" :src="currentSong.image">
-=======
           <img width="40" height="40" :src="currentSong.image" :class="cdCls">
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
         </div>
         <div class="text">
           <h2 class="name" v-html="currentSong.name"></h2>
@@ -83,19 +61,11 @@
         <div class="control">
         </div>
         <div class="control">
-<<<<<<< HEAD
-          <i class="icon-playlist"></i>
-        </div>
-      </div>
-    </transition> 
-     
-=======
           <i :class="miniIcon" @click.stop="togglePlaying"></i>
         </div>
       </div>
     </transition>
     <audio :src="currentSong.url" ref="audio" @canplay="ready" @error="error" @timeupdate="updateTime"></audio>
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
   </div>
 </template>
 
@@ -105,16 +75,6 @@
 import {mapGetters, mapMutations} from 'vuex'
 import animations from 'create-keyframe-animation'
 import {prefixStyle} from 'common/js/dom'
-<<<<<<< HEAD
-const transform = prefixStyle('transform')
-export default {
-  computed: {
-    ...mapGetters([
-      'fullScreen',
-      'playList',
-      'currentSong'
-    ])
-=======
 import ProgressBar from 'base/progress-bar/progress-bar'
 const transform = prefixStyle('transform')
 export default {
@@ -149,7 +109,6 @@ export default {
     percent() {
       return this.currentTime / this.currentSong.duration
     }
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
   },
   methods: {
     back() {
@@ -212,11 +171,6 @@ export default {
         scale
       }
     },
-<<<<<<< HEAD
-    ...mapMutations({
-      setFullSreen: 'SET_FULL_SCREEN'
-    })
-=======
     togglePlaying() {
       this.setPlayingState(!this.playing)
     },
@@ -299,7 +253,6 @@ export default {
   },
   components: {
     ProgressBar
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
   }
 }
 </script>

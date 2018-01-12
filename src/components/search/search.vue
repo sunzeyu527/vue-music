@@ -25,15 +25,10 @@
         </div>
       </scroll>
     </div>
-<<<<<<< HEAD
-    </div>
-   
-=======
     <div class="search-result"  ref="searchResult">
     </div>
     <router-view></router-view>
   </div>
->>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
 </template>
 
 <script type="text/ecmascript-6">
