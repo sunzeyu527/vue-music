@@ -6,7 +6,7 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
-        <div class="play" v-show="songs.length>0" ref="playBtn">
+        <div class="play" v-show="songs.length>0" ref="playBtn" @click='random'>
           <i class="icon-play"></i>
           <span class="text">随机播放全部</span>
         </div>
@@ -38,10 +38,13 @@
   import {prefixStyle} from 'common/js/dom'
   import Loading from 'base/loading/loading'
   import {mapActions} from 'vuex'
+  import {playListMixin} from 'common/js/mixin'
   const transform = prefixStyle('transform')
   const backdrop = prefixStyle('backdrop-filter')
   const RESERVED_HEIGHT = 40
   export default {
+    // 一个组件可以插入多个mixin 一旦组件插入mixin mixin中的代码就会插入到组件中
+    mixins: [playListMixin],
     props: {
       bgImage: {
         type: String,
@@ -98,8 +101,19 @@
           index
         })
       },
+      random() {
+        this.randomPlay({
+          list: this.songs
+        })
+      },
+      handlePlayList(playList) {
+        const bottom = playList.length > 0 ? '60px' : ''
+        this.$refs.list.$el.style.bottom = bottom
+        this.$refs.list.refresh()
+      },
       ...mapActions([
-        'selectPlay'
+        'selectPlay',
+        'randomPlay'
       ])
     },
     watch: {
