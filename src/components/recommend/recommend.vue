@@ -14,7 +14,7 @@
           <div class="recommend-list">
             <h1 class="list-title">热门歌单推荐</h1>
             <ul>
-              <li  class="item" v-for="(item,idx) in diskList" :key='idx'>
+              <li  class="item" v-for="(item,idx) in diskList" :key='idx' @click="selectItem(item)">
                 <div class="icon">
                   <img width="60" height="60" v-lazy='item.imgurl'>
                 </div>
@@ -30,6 +30,7 @@
           <loading></loading>
         </div>
       </scroll>
+      <router-view></router-view>
   </div>
 </template>
 
@@ -40,6 +41,7 @@
   import {getRecommend, getDiskList} from 'api/recommend'
   import {ERR_OK} from 'api/config'
   import {playListMixin} from 'common/js/mixin'
+  import {mapMutations} from 'vuex'
   export default {
     mixins: [playListMixin],
     data() {
@@ -79,7 +81,18 @@
           this.$refs.scroll.refresh() // 通过监听图片加载 来确定图片已经加载 也就是说轮播的高度被撑开 只确定一张图片加载成功就可 所以通过一个开关来控制
           this.checkLoaded = true
         }
-      }
+      },
+      selectItem(item) {
+        this.$router.push({
+          path: `/recommend/${item.dissid}`
+        })
+        // 在这通过mutations修改disc的数据
+        // 当通过路由跳转到disc组件的时候读取vuex中的值
+        this.setDisc(item)
+      },
+      ...mapMutations({
+        setDisc: 'SET_DISC'
+      })
     },
     components: {
       Slider,
