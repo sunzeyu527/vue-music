@@ -35,7 +35,7 @@ export function getDiskList() {
 }
 
 export function getSongList(disstid) {
-  const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  const url = '/api/getRankMusic'
   const data = Object.assign({}, commonParams, {
     disstid,
     type: 1,
@@ -46,7 +46,12 @@ export function getSongList(disstid) {
     g_tk: 5381,
     hostUin: 0,
     needNewCode: 1,
-    new_format: 1
+    new_format: 1,
+    format: 'json'
   })
-  return jsonp(url, data, options)
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
 }

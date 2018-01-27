@@ -52,7 +52,9 @@
       },
       songs: {
         type: Array,
-        default: []
+        default: function () {
+          return []
+        }
       },
       title: {
         type: String,

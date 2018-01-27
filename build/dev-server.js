@@ -61,6 +61,20 @@ apiRoutes.get('/lyric', function (req, res) {
     console.log(e)
   })
 })
+apiRoutes.get('/getRankMusic', function (req, res) {
+  var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  axios.get(url, {
+    headers: {
+      referer: 'https://y.qq.com/w/taoge.html',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  }).then((response) => {
+    res.json(response.data) // 再次返回给浏览器前端
+  }).catch((e) => {
+    console.log(e)
+  })
+})
 app.use('/api',apiRoutes)
 
 

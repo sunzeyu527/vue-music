@@ -26,17 +26,21 @@
       _getSongList() {
         getSongList(this.disc.dissid).then((res) => {
           if (res.code === ERR_OK) {
+            console.log(res)
             this.songs = this._normalizeSongs(res.cdlist[0].songlist)
+            console.log(this.songs)
           }
         })
       },
       _normalizeSongs(list) {
         let ret = []
         list.forEach((musicData) => {
-          if (musicData.songid && musicData.ablumid) {
+          console.log(musicData)
+          if (musicData.songid && musicData.albumid) {
             ret.push(createSong(musicData))
           }
         })
+        return ret
       }
     },
     computed: {
