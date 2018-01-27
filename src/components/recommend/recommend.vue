@@ -71,7 +71,6 @@
       _getDiskList() {
         getDiskList().then((res) => {
           if (res.code === ERR_OK) {
-            console.log(res.data)
             this.diskList = res.data.list
           }
         })
@@ -83,6 +82,7 @@
         }
       },
       selectItem(item) {
+        console.log(item)
         this.$router.push({
           path: `/recommend/${item.dissid}`
         })

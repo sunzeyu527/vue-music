@@ -42,11 +42,12 @@ export function getSongList(disstid) {
     json: 1,
     urf8: 1,
     onlysong: 0,
-    platform: 'h5',
+    platform: 'yqq',
+    notice: 0,
     g_tk: 5381,
     hostUin: 0,
+    loginUin: 0,
     needNewCode: 1,
-    new_format: 1,
     format: 'json'
   })
   return axios.get(url, {

@@ -39,9 +39,6 @@ apiRoutes.get('/getDiscList', function (req, res) {
     console.log(e)
   })
 })
-<<<<<<< HEAD
-app.use('/api', apiRoutes)
-=======
 apiRoutes.get('/lyric', function (req, res) {
   var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
   axios.get(url, {
@@ -78,10 +75,7 @@ apiRoutes.get('/getRankMusic', function (req, res) {
     console.log(e)
   })
 })
-app.use('/api',apiRoutes)
-
-
->>>>>>> 12152c19845183252551312e9348f33e0e97e094
+app.use('/api', apiRoutes)
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {

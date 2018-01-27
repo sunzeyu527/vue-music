@@ -28,14 +28,12 @@
           if (res.code === ERR_OK) {
             console.log(res)
             this.songs = this._normalizeSongs(res.cdlist[0].songlist)
-            console.log(this.songs)
           }
         })
       },
       _normalizeSongs(list) {
         let ret = []
         list.forEach((musicData) => {
-          console.log(musicData)
           if (musicData.songid && musicData.albumid) {
             ret.push(createSong(musicData))
           }
