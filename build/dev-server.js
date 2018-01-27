@@ -39,7 +39,49 @@ apiRoutes.get('/getDiscList', function (req, res) {
     console.log(e)
   })
 })
+<<<<<<< HEAD
 app.use('/api', apiRoutes)
+=======
+apiRoutes.get('/lyric', function (req, res) {
+  var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
+  axios.get(url, {
+    headers: {
+      referer: 'https://c.y.qq.com',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  }).then((response) => {
+    var ret = response.data
+    if (typeof ret === 'string') {
+      var reg = /^\w+\(({[^()]+})\)$/
+      var matches = ret.match(reg)
+      if (matches) {
+        ret = JSON.parse(matches[1])
+      }
+    }
+    res.json(ret) // 再次返回给浏览器前端
+  }).catch((e) => {
+    console.log(e)
+  })
+})
+apiRoutes.get('/getRankMusic', function (req, res) {
+  var url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+  axios.get(url, {
+    headers: {
+      referer: 'https://y.qq.com/w/taoge.html',
+      host: 'c.y.qq.com'
+    },
+    params: req.query
+  }).then((response) => {
+    res.json(response.data) // 再次返回给浏览器前端
+  }).catch((e) => {
+    console.log(e)
+  })
+})
+app.use('/api',apiRoutes)
+
+
+>>>>>>> 12152c19845183252551312e9348f33e0e97e094
 var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {

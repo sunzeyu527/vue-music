@@ -1,5 +1,5 @@
 <template>
-  <div class="progress-bar" ref="progressBar">
+  <div class="progress-bar" ref="progressBar" @click='progressClick'>
     <div class="bar-inner">
       <div class="progress" ref="progress"></div>
       <div class="progress-btn-wrapper" ref="progressBtn"
@@ -14,7 +14,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  const progressBtnWidth = 16
+  const progressBtnWidth = 16 // 按钮的宽度定义为一个常量
   import {prefixStyle} from 'common/js/dom'
   const transform = prefixStyle('transform')
   export default {
@@ -56,6 +56,14 @@
       progressTouchEnd() {
         this.touch.initiated = false
         // 需要派发一个事件 在其父组件中接收这个事件 具体派发在_triggerPercent方法中执行
+        this._triggerPercent()
+      },
+      progressClick(e) {
+        const rect = this.$refs.progressBar.getBoundingClientRect()
+        const offsetWidth = e.pageX - rect.left
+        // 这里当我们点击progressbtn的时候，e.offsetX 获取不对
+        // this._offset(e.offsetX)
+        this._offset(offsetWidth)
         this._triggerPercent()
       },
       _offset(offsetWidth) {

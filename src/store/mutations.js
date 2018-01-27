@@ -12,7 +12,7 @@ const mutations = {
   [types.SET_FULL_SCREEN](state, flag) {
     state.fullScreen = flag
   },
-  [types.SET_PLAYLIST](state, list) {
+  [types.SET_PLAY_LIST](state, list) {
     state.playList = list
   },
   [types.SET_SEQUENCE_LIST](state, list) {
@@ -23,6 +23,9 @@ const mutations = {
   },
   [types.SET_CURRENT_INDEX](state, index) {
     state.currentIndex = index
+  },
+  [types.SET_DISC](state, disc) {
+    state.disc = disc
   }
 }
 

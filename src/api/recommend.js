@@ -33,3 +33,25 @@ export function getDiskList() {
     return Promise.resolve(res.data)
   })
 }
+
+export function getSongList(disstid) {
+  const url = '/api/getRankMusic'
+  const data = Object.assign({}, commonParams, {
+    disstid,
+    type: 1,
+    json: 1,
+    urf8: 1,
+    onlysong: 0,
+    platform: 'h5',
+    g_tk: 5381,
+    hostUin: 0,
+    needNewCode: 1,
+    new_format: 1,
+    format: 'json'
+  })
+  return axios.get(url, {
+    params: data
+  }).then((res) => {
+    return Promise.resolve(res.data)
+  })
+}
