@@ -1,6 +1,10 @@
 # vue-music
 
+<<<<<<< HEAD
+> 音乐播放器
+=======
 > A Vue.js project
+>>>>>>> 9496c9a63fba904017f211a76726e0aa7e07618c
 
 ## Build Setup
 

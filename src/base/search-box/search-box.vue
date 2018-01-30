@@ -1,19 +1,17 @@
 <template>
   <div class="search-box">
     <i class="icon-search"></i>
-    <input ref="query" v-model="query" class="box" :placeholder="placeholder"/>
-    <i @click="clear" v-show="query" class="icon-dismiss"></i>
+    <input ref="query" class="box" :placeholder='placeholder' v-model="query"/>
+    <i class="icon-dismiss" v-show="query" @click="clear"></i>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  import {debounce} from 'common/js/util'
-
   export default {
     props: {
       placeholder: {
         type: String,
-        default: '搜索歌曲、歌手'
+        default: '搜索歌曲/歌手'
       }
     },
     data() {
@@ -27,15 +25,14 @@
       },
       setQuery(query) {
         this.query = query
-      },
-      blur() {
-        this.$refs.query.blur()
       }
     },
     created() {
-      this.$watch('query', debounce((newQuery) => {
+      // 当query发生改变的时候 就会派发一个事件 来告诉外部组件
+      // 当前组件并不关注query的变化 它只负责自身组件的逻辑以及对外提供query这个事件
+      this.$watch('query', (newQuery) => {
         this.$emit('query', newQuery)
-      }, 200))
+      })
     }
   }
 </script>

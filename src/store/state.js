@@ -9,6 +9,8 @@ const state = {
   playList: [], // 播放列表
   sequenceList: [], // 播放顺序列表 因为有三种播放模式，当时顺序播放模式的时候，它是和playList一样的
   mode: playMode.sequence, // 播放模式
-  currentIndex: -1 // 当前播放歌曲 通过currentIndex和playList就可以计算出当前播放的歌曲
+  currentIndex: -1, // 当前播放歌曲 通过currentIndex和playList就可以计算出当前播放的歌曲
+  disc: {},
+  topList: {}
 }
 export default state

@@ -1,15 +1,14 @@
 <template>
   <div class="search">
     <div class="search-box-wrapper">
-      <search-box ref="searchBox" @query="onQueryChange"></search-box>
+      <search-box ref="searchBox" @query='onQueryChange'></search-box>
     </div>
-    <div ref="shortcutWrapper" class="shortcut-wrapper">
-      <scroll :refreshDelay="refreshDelay" ref="shortcut" class="shortcut" >
-        <div>
+    <div ref="shortcutWrapper" class="shortcut-wrapper" v-show="!query">
+        <div class="shortcut">
           <div class="hot-key">
             <h1 class="title">热门搜索</h1>
             <ul>
-              <li>
+              <li class="item" v-for="(item, index) in hotKey" :key="index" @click="addQuery(item.k)">
                 <span>{{item.k}}</span>
               </li>
             </ul>
@@ -23,16 +22,49 @@
             </h1>
           </div>
         </div>
-      </scroll>
     </div>
-    <div class="search-result"  ref="searchResult">
-    </div>
-    <router-view></router-view>
+   <div class="search-result" v-show="query">
+     <suggest :query='query'></suggest>  
+   </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-
+  import SearchBox from 'base/search-box/search-box'
+  import {getHotKey} from 'api/search'
+  import {ERR_OK} from 'api/config'
+  import Suggest from 'components/suggest/suggest'
+  export default {
+    created() {
+      this._getHotKey()
+    },
+    data() {
+      return {
+        hotKey: [],
+        query: ''
+      }
+    },
+    methods: {
+      _getHotKey() {
+        getHotKey().then((res) => {
+          if (res.code === ERR_OK) {
+            this.hotKey = res.data.hotkey.slice(0, 10)
+          }
+        })
+      },
+      addQuery(query) {
+        console.log(1)
+        this.$refs.searchBox.setQuery(query)
+      },
+      onQueryChange(query) {
+        this.query = query
+      }
+    },
+    components: {
+      SearchBox,
+      Suggest
+    }
+  }
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
