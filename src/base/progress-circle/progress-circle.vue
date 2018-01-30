@@ -31,9 +31,9 @@
         return (1 - this.percent) * this.dashArray
       }
     }
+
   }
 </script>
-
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
 

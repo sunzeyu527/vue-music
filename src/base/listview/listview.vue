@@ -104,6 +104,10 @@
         let anchorIndex = parseInt(this.touch.anchorIndex) + delta
         this._scrollTo(anchorIndex)
       },
+      refresh() {
+        // 暴露一个方法 给singer.vue来使用
+        this.$refs.listview.refresh()
+      },
       scroll(pos) {
         this.scrollY = pos.y
       },

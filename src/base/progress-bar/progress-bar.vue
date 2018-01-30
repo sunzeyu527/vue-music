@@ -1,5 +1,5 @@
 <template>
-  <div class="progress-bar" ref="progressBar">
+  <div class="progress-bar" ref="progressBar" @click="progressClick">
     <div class="bar-inner">
       <div class="progress" ref="progress"></div>
       <div class="progress-btn-wrapper" ref="progressBtn"
@@ -57,6 +57,14 @@
         this.touch.initiated = false
         // 需要派发一个事件 在其父组件中接收这个事件 具体派发在_triggerPercent方法中执行
         this._triggerPercent()
+      },
+      progressClick(e) {
+        // this._offset(e.offsetX) // 获得当前点击位置的offsetX e是MouseEvent 事件 _offset改变视图中进度条的位置
+        // 这里有一个小bug 当我们点击到progressBtn的时候 e.offsetX是不对的
+        const rect = this.$refs.progressBar.getBoundingClientRect()
+        const offsetWidth = e.pageX - rect.left
+        this._offset(offsetWidth)
+        this._triggerPercent()  // _triggerPercent 派发一个事件 在父组件player中去修改
       },
       _offset(offsetWidth) {
         this.$refs.progress.style.width = `${offsetWidth}px` // 表示已经唱完歌曲的进度条
