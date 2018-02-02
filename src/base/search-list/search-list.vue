@@ -21,6 +21,8 @@
     },
     methods: {
       selectItem(item) {
+        // 基础组件是不会去写太多的业务逻辑 只负责告诉外部那个被选择了
+        // 外部组件关心这个事件的  只需要监听这个事件就可以进行下一步操作了
         this.$emit('select', item)
       },
       deleteOne(item) {

@@ -1,4 +1,5 @@
 import { playMode } from 'common/js/config'
+import {loadSearch} from 'common/js/cache'
 // state 只保存基础的数据所有在这些基础数据上可以计算来的数据都放在getters里面
 // 在配置vuex的时候 要想清楚原始数据是什么，这些数据最好都是一些底层的数据
 const state = {
@@ -11,6 +12,8 @@ const state = {
   mode: playMode.sequence, // 播放模式
   currentIndex: -1, // 当前播放歌曲 通过currentIndex和playList就可以计算出当前播放的歌曲
   disc: {},
-  topList: {}
+  topList: {},
+  // 这样就能保证vuex中的searchHistory中的数据能够一直和本地localstorage中进行同步
+  searchHistory: loadSearch()
 }
 export default state

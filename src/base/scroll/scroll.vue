@@ -30,6 +30,7 @@
         default: false
       },
       beforeScroll: {
+        // 在滚动开始会派发一个事件
         type: Boolean,
         default: false
       },
@@ -61,13 +62,16 @@
 
         if (this.pullup) {
           this.scroll.on('scrollEnd', () => {
+            // scrollEnd 在滚动结束之后会派发一次 在这里判断如果滚动的高度小于最大高度加上一个50px的缓冲区
             if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+              // scrollToEnd 和scrollEnd不一样scrollToEnd表示滚动到底部了  scrollEnd表示scroll 停止了
               this.$emit('scrollToEnd')
             }
           })
         }
 
         if (this.beforeScroll) {
+          // 在滚动一开始的时候 向外派发一个事件
           this.scroll.on('beforeScrollStart', () => {
             this.$emit('beforeScroll')
           })
