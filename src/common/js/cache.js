@@ -1,6 +1,8 @@
 // 所有和本地存储相关的逻辑都是在这里来实现
 import storage from 'good-storage'
 const SEARCH_KEY = '__search__'
+const PLAY_KEY = '__play__'
+const PLAY_MAX_LENGTH = 200
 // 定义一个最大的存储空间 当达到最大的数量的时候 就把最前面的删除掉
 const SEARCH_MAX_LENGTH = 15
 // 为了保证最新搜索的结果总是在存储位置的最前面  所以封装一个方法
@@ -10,6 +12,7 @@ function insertArray(arr, val, compare, maxLen) {
     return
   }
   if (index > 0) {
+    // 如果在当前数组中找到该元素且不是第一个 就删除掉
     arr.splice(index, 1)
   }
   arr.unshift(val)
@@ -56,4 +59,17 @@ export function deleteSearch(query) {
 export function clearSearch() {
   storage.remove(SEARCH_KEY)
   return []
+}
+// 修改的时候也要修改缓存
+export function savePlay(song) {
+  let songs = storage.get(PLAY_KEY, [])
+  insertArray(songs, song, (item) => {
+    return item.id === song.id
+  }, PLAY_MAX_LENGTH)
+  storage.set(PLAY_KEY, songs)
+  return songs
+}
+// 初始值也要从缓存里面来读取
+export function loadPlay() {
+  return storage.get(PLAY_KEY, [])
 }

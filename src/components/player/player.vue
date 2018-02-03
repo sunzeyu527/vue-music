@@ -106,19 +106,21 @@
 <script type="text/ecmascript-6">
 // player组件放在app.vue下面渲染，因为它不是路由相关的组件，是应用相关的播放器。在任何路由下都可以播放，切换路由的
 // 时候也不会影响播放器的播放
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import animations from 'create-keyframe-animation'
 import {prefixStyle} from 'common/js/dom'
 import ProgressBar from 'base/progress-bar/progress-bar'
 import ProgressCircle from 'base/progress-circle/progress-circle'
-import {playMode} from 'common/js/config'
-import {shuffle} from 'common/js/util'
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
 import PlayList from 'components/playlist/playlist'
+import {playMode} from 'common/js/config'
+import {playerMixin, searchMixin} from 'common/js/mixin'
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 export default {
+  // 当多个组件中公用同样的方法的时候 可以使用mixin
+  mixins: [playerMixin, searchMixin],
   data() {
     return {
       songReady: false,
@@ -145,18 +147,10 @@ export default {
     disableCls() {
       return this.songReady ? '' : 'disable'
     },
-    iconMode() {
-      return this.mode === playMode.sequence ? 'icon-sequence' : this.mode ===
-        playMode.loop ? 'icon-loop' : 'icon-random'
-    },
     ...mapGetters([
       'fullScreen',
-      'playList',
-      'currentSong',
       'playing',
-      'currentIndex',
-      'mode',
-      'sequenceList'
+      'currentIndex'
     ]),
     percent() {
       return this.currentTime / this.currentSong.duration
@@ -247,7 +241,7 @@ export default {
         if (index === this.playList.length) {
           index = 0
         }
-        this.setCurrnetIndex(index)
+        this.setCurrentIndex(index)
         if (!this.playing) {
           this.togglePlaying()
         }
@@ -270,29 +264,10 @@ export default {
       }
       this.songReady = false
     },
-    changeMode() {
-      const mode = (this.mode + 1) % 3
-      this.setPlayMode(mode)
-      let list = null
-      if (mode === playMode.random) {
-        // 当目前是随机模式的时候 要对sequenceList进行一个洗牌的功能 在common/js/util.js中实现
-        list = shuffle(this.sequenceList)
-      } else {
-        list = this.sequenceList
-      }
-      this.resetCurrentIndex(list)
-      this.setPlayList(list)
-    },
-    resetCurrentIndex(list) {
-      // 这个方法的主要作用是当播放模式发生改变的时候，当前的播放的歌曲不改变
-      let index = list.findIndex((item) => {
-        // es6数组的新api findIndex
-        return item.id === this.currentSong.id
-      })
-      this.setCurrnetIndex(index)
-    },
     ready() {
       this.songReady = true
+      // 在准备ready事件中来存储播放历史
+      this.savePlayHistory(this.currentSong)
     },
     error() {
       // 当网络出现故障或者歌曲加载失败的时候 需要把this.songReady 设置成true 这样就能保证其他按钮的可用
@@ -426,16 +401,19 @@ export default {
       this.$refs.playlist.show()
     },
     ...mapMutations({
-      setFullSreen: 'SET_FULL_SCREEN',
-      setPlayingState: 'SET_PLAYING_STATE',
-      setCurrnetIndex: 'SET_CURRENT_INDEX',
-      setPlayMode: 'SET_PLAY_MODE',
-      setPlayList: 'SET_PLAY_LIST'
-    })
+      setFullSreen: 'SET_FULL_SCREEN'
+    }),
+    ...mapActions([
+      'savePlayHistory'
+    ])
   },
   watch: {
     currentSong(newSong, oldSong) {
       // 用watch属性观察currentSong
+      if (!newSong.id) {
+        // 也就是说当没有新的歌曲的时候 就直接return掉 这样就避免了当只有一首歌曲的时候删除会报错
+        return
+      }
       if (newSong.id === oldSong.id) {
         return
       }

@@ -3,7 +3,7 @@
 import * as types from './mutation-types'
 import { playMode } from 'common/js/config'
 import { shuffle } from 'common/js/util'
-import {saveSearch, deleteSearch, clearSearch} from 'common/js/cache'
+import {saveSearch, deleteSearch, clearSearch, savePlay} from 'common/js/cache'
 function findIndex(list, song) {
   return list.findIndex((item) => {
     return item.id === song.id
@@ -112,8 +112,18 @@ export const deleteSong = function ({commit, state}, song) {
   commit(types.SET_PLAY_LIST, playList)
   commit(types.SET_SEQUENCE_LIST, sequenceList)
   commit(types.SET_CURRENT_INDEX, currentIndex)
+  const playingState = playList.length > 0
+    // 这个时候的逻辑是当前整个列表都删除了 没有歌曲的时候 需要将当前的播放状态设置为false 这就是逻辑思维的缜密性的一种体现
+  commit(types.SET_PLAYING_STATE, playingState)
+}
 
-  if (!playList.length) {
-    commit(types.SET_PLAYING_STATE, false)
-  }
+export const deleteSongList = function ({commit}) {
+  commit(types.SET_PLAY_LIST, [])
+  commit(types.SET_SEQUENCE_LIST, [])
+  commit(types.SET_CURRENT_INDEX, -1)
+  commit(types.SET_PLAYING_STATE, false)
+}
+
+export const savePlayHistory = function ({commit}, song) {
+  commit(types.SET_PLAY_HISTORY, savePlay(song))
 }
