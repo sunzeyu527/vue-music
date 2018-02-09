@@ -8,14 +8,19 @@
         </div>
       </div>
       <div class="search-box-wrapper">
-        <search-box placeholder='搜索歌曲' @query='onQueryChange'></search-box>  
+        <search-box placeholder='搜索歌曲' @query='onQueryChange' ref="searchBox"></search-box>  
       </div>
       <div class="shortcut" v-show="!query">
         <switches :switches='switches' :currentIndex='currentIndex' @switch='switchItem'></switches>
         <div class="list-wrapper">
-          <scroll v-if="currentIndex === 0" :data="playHistory" class="list-scroll">
+          <scroll v-if="currentIndex === 0" :data="playHistory" class="list-scroll" ref="songList">
             <div class="list-inner">
               <song-list :songs='playHistory' @select="selectSong"></song-list>
+            </div>
+          </scroll>
+          <scroll class="list-scroll" v-if="currentIndex === 1" :data='searchHistory' ref="searchList" :refreshDelay='refreshDelay'>
+            <div class="list-inner">
+              <search-list :searches='searchHistory' @delete='deleteSearchHistory' @select='addQuery'></search-list>
             </div>
           </scroll>
         </div>
@@ -29,6 +34,12 @@
             ></suggest>
         
       </div>
+      <top-tip ref="showTip">
+        <div class="tip-title">
+          <i class="icon-ok"></i>
+          <span class="text">1首歌曲已经添加到播放队列</span>
+        </div>
+      </top-tip>
     </div>
   </transition>
 </template>
@@ -42,6 +53,8 @@
   import {mapGetters, mapActions} from 'vuex'
   import SongList from 'base/song-list/song-list'
   import Song from 'common/js/song'
+  import SearchList from 'base/search-list/search-list'
+  import TopTip from 'base/top-tip/top-tip'
   export default {
     mixins: [searchMixin],
     data() {
@@ -60,12 +73,22 @@
     methods: {
       show() {
         this.showFlag = true
+        setTimeout(() => {
+          // 从其他路由切换过来之前 默认是display为none的 这个时候scroll组件已经初始化完成了 但是高度计算是有问题的
+          // 所以在这里要加一个判断 在页面初始化完成之后 给scroll做个refresh刷新的操作  这样能保证scroll组件的计算高度是正确的
+          if (this.currentIndex === 0) {
+            this.$refs.songList.refresh()
+          } else {
+            this.$refs.searchList.refresh()
+          }
+        }, 20)
       },
       hide() {
         this.showFlag = false
       },
       selectSuggest() {
         this.saveSearchHistory(this.query)
+        this.showTip()
       },
       switchItem(index) {
         this.currentIndex = index
@@ -74,7 +97,11 @@
         if (index !== 0) {
           // 这里要注意 需要引入Song这个类
           this.insertSong(new Song(song))
+          this.showTip()
         }
+      },
+      showTip() {
+        this.$refs.showTip.show()
       },
       ...mapActions([
         'insertSong'
@@ -85,7 +112,9 @@
       Suggest,
       Switches,
       Scroll,
-      SongList
+      SongList,
+      SearchList,
+      TopTip
     }
   }
 </script>

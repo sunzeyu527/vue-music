@@ -66,7 +66,7 @@
               <i class="icon-next" @click="next"></i>
             </div>
             <div class="icon i-right">
-              <i class="icon icon-not-favorite"></i>
+              <i class="icon" :class="getFavoriteIcon(currentSong)" @click="toggleFavorite(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@
     <audio 
           :src="currentSong.url" 
           ref="audio" 
-          @canplay="ready" 
+          @play="ready" 
           @error="error" 
           @timeupdate="updateTime"
           @ended = 'end'
@@ -236,6 +236,7 @@ export default {
       if (!this.songReady) return
       if (this.playList.length === 1) {
         this.loop()
+        return
       } else {
         let index = this.currentIndex + 1
         if (index === this.playList.length) {
@@ -252,12 +253,13 @@ export default {
       if (!this.songReady) return
       if (this.playList.length === 1) {
         this.loop()
+        return
       } else {
         let index = this.currentIndex - 1
         if (index === -1) {
           index = this.playList.length - 1
         }
-        this.setCurrnetIndex(index)
+        this.setCurrentIndex(index)
         if (!this.playing) {
           this.togglePlaying()
         }
@@ -287,6 +289,9 @@ export default {
     },
     loop() {
       this.$refs.audio.currentTime = 0
+      if (!this.playing && this.playList.length === 1) {
+        return
+      }
       this.$refs.audio.play()
       if (this.currentLyric) {
         this.currentLyric.seek(0)
@@ -320,6 +325,9 @@ export default {
     getLyric() {
       // 在song.js中封装中的歌曲的类中有自定义了一个getLyric的方法
       this.currentSong.getLyric().then((lyric) => {
+        if (this.currentSong.lyric !== lyric) {
+          return
+        }
         this.currentLyric = new Lyric(lyric, this.handleLyric)
         if (this.playing) {
           this.currentLyric.play()
@@ -420,7 +428,9 @@ export default {
       if (this.currentLyric) {
         this.currentLyric.stop()
       }
-      setTimeout(() => {
+      // 保证无论currentSong切换多少次 只是执行最后一次setTimeOut
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         // 保证dom渲染之后才能正确调用play方法
         this.$refs.audio.play()
         this.getLyric()

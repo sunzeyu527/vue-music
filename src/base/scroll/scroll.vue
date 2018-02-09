@@ -97,6 +97,7 @@
       data() {
         setTimeout(() => {
           this.refresh()
+          // 通过外部props来控制scroll组件的刷新时间
         }, this.refreshDelay)
       }
     }

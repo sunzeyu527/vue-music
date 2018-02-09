@@ -3,6 +3,8 @@ import storage from 'good-storage'
 const SEARCH_KEY = '__search__'
 const PLAY_KEY = '__play__'
 const PLAY_MAX_LENGTH = 200
+const FAVORITE_KEY = '__favorite__'
+const FAVORITE_MAX_LENGTH = 200
 // 定义一个最大的存储空间 当达到最大的数量的时候 就把最前面的删除掉
 const SEARCH_MAX_LENGTH = 15
 // 为了保证最新搜索的结果总是在存储位置的最前面  所以封装一个方法
@@ -72,4 +74,26 @@ export function savePlay(song) {
 // 初始值也要从缓存里面来读取
 export function loadPlay() {
   return storage.get(PLAY_KEY, [])
+}
+
+export function saveFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, [])
+  insertArray(songs, song, (item) => {
+    return song.id === item.id
+  }, FAVORITE_MAX_LENGTH)
+  storage.set(FAVORITE_KEY, songs)
+  return songs
+}
+
+export function deleteFavorite(song) {
+  let songs = storage.get(FAVORITE_KEY, [])
+  deleteFromArray(songs, (item) => {
+    return song.id === item.id
+  })
+  storage.set(FAVORITE_KEY, songs)
+  return songs
+}
+
+export function loadFavorite() {
+  return storage.get(FAVORITE_KEY, [])
 }

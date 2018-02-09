@@ -1,5 +1,5 @@
 import { playMode } from 'common/js/config'
-import {loadSearch, loadPlay} from 'common/js/cache'
+import {loadSearch, loadPlay, loadFavorite} from 'common/js/cache'
 // state 只保存基础的数据所有在这些基础数据上可以计算来的数据都放在getters里面
 // 在配置vuex的时候 要想清楚原始数据是什么，这些数据最好都是一些底层的数据
 const state = {
@@ -16,6 +16,7 @@ const state = {
   // 这样就能保证vuex中的searchHistory中的数据能够一直和本地localstorage中进行同步
   searchHistory: loadSearch(),
   // 播放历史数据
-  playHistory: loadPlay()
+  playHistory: loadPlay(),
+  favoriteList: loadFavorite()
 }
 export default state
